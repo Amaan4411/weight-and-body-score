@@ -1,13 +1,15 @@
 declare module 'react-native-vector-icons/Ionicons' {
-    import { Icon } from 'react-native-vector-icons/Icon';
-    export default Icon;
-  }
+  import {Icon} from 'react-native-vector-icons/Icon';
+  export default Icon;
+}
 
 declare module '@react-native-community/datetimepicker';
 
 declare module 'react-native-vector-icons/MaterialIcons' {
-  import { Icon } from 'react-native-vector-icons/Icon';
+  import {Icon} from 'react-native-vector-icons/Icon';
   export default Icon;
 }
 
 declare module 'react-native-vector-icons/MaterialCommunityIcons';
+
+declare module 'react-native-vector-icons/Feather';
