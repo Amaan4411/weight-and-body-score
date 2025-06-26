@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -10,35 +10,16 @@ import {
   Dimensions,
   TextStyle,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HeightScreen from './src/screens/HeightScreen';
-import WeightScreen from './src/screens/WeightScreen';
-import ActivityLevelScreen from './src/screens/ActivityLevelScreen';
 
 const { width } = Dimensions.get('window');
-const AGES = Array.from({ length: 88 }, (_, i) => 13 + i); // 18-60
+const HEIGHTS = Array.from({ length: 150 }, (_, i) => 100 + i); // 100-249
 const ITEM_HEIGHT = 80;
 const VISIBLE_ITEMS = 5;
 const CENTER_INDEX = Math.floor(VISIBLE_ITEMS / 2);
-const Stack = createNativeStackNavigator();
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Age" component={AgeScreen} />
-        <Stack.Screen name="Height" component={HeightScreen} />
-        <Stack.Screen name="Weight" component={WeightScreen} />
-        <Stack.Screen name="ActivityLevel" component={ActivityLevelScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
-function AgeScreen({ navigation }: any) {
-  const [selectedIndex, setSelectedIndex] = React.useState(10); // Default to 28
-  const flatListRef = React.useRef<FlatList>(null);
+export default function HeightScreen({ navigation }: any) {
+  const [selectedIndex, setSelectedIndex] = useState(50); // Default to 150cm
+  const flatListRef = useRef<FlatList>(null);
 
   const onScroll = (event: any) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -59,23 +40,23 @@ function AgeScreen({ navigation }: any) {
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       {/* Top Bar */}
       <View style={styles.topBar}>
-        <TouchableOpacity style={styles.backBtn}>
+        <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
           <Text style={styles.backArrow}>{'<'}</Text>
         </TouchableOpacity>
         <View style={styles.progressBarContainer}>
           <View style={styles.progressBarBg} />
           <View style={styles.progressBarFill} />
         </View>
-        <Text style={styles.stepText}>3/10</Text>
+        <Text style={styles.stepText}>4/10</Text>
       </View>
       {/* Title */}
-      <Text style={styles.title}>Enter Your Age</Text>
-      <Text style={styles.subtitle}>Your age helps us design suitable workouts.</Text>
+      <Text style={styles.title}>Enter Your Height</Text>
+      <Text style={styles.subtitle}>Please provide your height in centimeters.</Text>
       {/* Picker */}
       <View style={styles.pickerContainer}>
         <FlatList
           ref={flatListRef}
-          data={AGES}
+          data={HEIGHTS}
           keyExtractor={(item) => item.toString()}
           showsVerticalScrollIndicator={false}
           snapToInterval={ITEM_HEIGHT}
@@ -106,7 +87,7 @@ function AgeScreen({ navigation }: any) {
           }}
         />
         <View style={styles.overlay}>
-          <Text style={styles.staticYearsText}>years</Text>
+          <Text style={styles.staticCmText}>cm</Text>
           <View style={styles.overlayLineTop} />
           <View style={styles.overlayLineBottom} />
         </View>
@@ -116,7 +97,7 @@ function AgeScreen({ navigation }: any) {
         <TouchableOpacity style={styles.skipBtn}>
           <Text style={styles.skipText}>Skip</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.continueBtn} onPress={() => navigation.navigate('Height')}>
+        <TouchableOpacity style={styles.continueBtn} onPress={() => navigation.navigate('Weight')}>
           <Text style={styles.continueText}>Continue</Text>
         </TouchableOpacity>
       </View>
@@ -161,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E6EAF3',
   },
   progressBarFill: {
-    width: '30%',
+    width: '40%',
     height: 8,
     borderRadius: 4,
     backgroundColor: '#2563FF',
@@ -207,7 +188,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  staticYearsText: {
+  staticCmText: {
     position: 'absolute',
     fontSize: 18,
     color: '#6B7280',
@@ -267,4 +248,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-});
+}); 
